@@ -15,6 +15,9 @@ SRCS = main.c \
 		$(LIBFT_DIR)/ft_strlen.c \
 		$(PHILOS_DIR)/philos.c \
 		$(PHILOS_DIR)/routine.c \
+		$(PHILOS_DIR)/time.c \
+		$(PHILOS_DIR)/time_converter.c \
+		$(PHILOS_DIR)/supervisor.c
 
 OBJS = $(SRCS:.c=.o)
 

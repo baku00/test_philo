@@ -1,25 +1,9 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   philos.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: dgloriod <dgloriod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/09 19:22:56 by dgloriod          #+#    #+#             */
-/*   Updated: 2022/11/11 00:30:49 by dgloriod         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "philos.h"
 
 static t_config	create_config(int argc, char **argv)
 {
 	t_config	config;
-	// int			i;
 
-	// i = -1;
-	// while (argv[++i])
-	// 	printf("Argv[%d]: %s\n", i, argv[i]);
 	config.number_of_philos = ft_atoi(argv[1]);
 	config.time_to_die = ft_atoi(argv[2]);
 	config.time_to_eat = ft_atoi(argv[3]);
@@ -32,7 +16,7 @@ static t_config	create_config(int argc, char **argv)
 	return (config);
 }
 
-static t_philo *create_philos(t_philo *prev, t_config config, int i)
+static t_philo *create_philos(t_philo *prev, t_config config, int i, t_table *table)
 {
 	t_philo	*philo;
 
@@ -41,16 +25,19 @@ static t_philo *create_philos(t_philo *prev, t_config config, int i)
 		return (NULL);
 	philo->n = i + 1;
 	philo->config = config;
-	philo->last_eat = 0;
-	philo->fork_number = 0;
+	philo->config.total_time = philo->n + 1;
+	philo->last_eat = get_actual_time();
+	philo->table = table;
+	philo->table->have_to_stop = 0;
+	philo->number_of_eat = 0;
 	if (philo->n % 2)
-		philo->state = SLEEPING_STATE;
+		philo->state = WAIT_FOR_START;
 	else
-		philo->state = EATING_STATE;
+		philo->state = WAIT_FOR_EAT_STATE;
 	pthread_mutex_init(&philo->fork, NULL);
 	philo->prev = prev;
 	if (++i < config.number_of_philos)
-		philo->next = create_philos(philo, config, i);
+		philo->next = create_philos(philo, config, i, table);
 	return (philo);
 }
 
@@ -74,22 +61,18 @@ static void	create_thread(t_philo **philos)
 		*philos = (*philos)->next;
 	}
 	pthread_create(&(*philos)->thread, NULL, &routine, *philos);
-	while ((*philos)->n < (*philos)->config.number_of_philos)
-	{
-		pthread_join((*philos)->thread, NULL);
-		*philos = (*philos)->next;
-	}
-	pthread_join((*philos)->thread, NULL);
 }
 
 t_philo	*init_philos(int argc, char **argv)
 {
 	t_philo		*philo;
 	t_config	config;
+	t_table		table;
 
 	config = create_config(argc, argv);
-	philo = create_philos(NULL, config, 0);
+	philo = create_philos(NULL, config, 0, &table);
 	philo = save_last(philo);
 	create_thread(&philo);
+	supervisor(philo);
 	return (philo);
 }
