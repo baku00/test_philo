@@ -36,7 +36,7 @@ typedef struct s_philo
 	void			*prev;
 }   t_philo;
 
-t_philo		*init_philos(int argc, char **argv);
+void		init_philos(int argc, char **argv);
 void		*routine();
 long int	get_actual_time(void);
 void		milliseconde_sleep(long int milliseconde);

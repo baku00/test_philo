@@ -20,7 +20,7 @@ static t_philo *create_philos(t_philo *prev, t_config config, int i, t_table *ta
 {
 	t_philo	*philo;
 
-	philo = ft_calloc(sizeof(t_philo), 1);
+	philo = (t_philo *)ft_calloc(sizeof(t_philo), 1);
 	if (!philo)
 		return (NULL);
 	philo->n = i + 1;
@@ -38,8 +38,20 @@ static t_philo *create_philos(t_philo *prev, t_config config, int i, t_table *ta
 	philo->prev = prev;
 	if (++i < config.number_of_philos)
 		philo->next = create_philos(philo, config, i, table);
+	else
+		philo->next = NULL;
 	return (philo);
 }
+
+/*static void	create_thread(t_philo *philos)
+{
+	while (philos->n < philos->config.number_of_philos)
+	{
+		pthread_create(&philos->thread, NULL, &routine, philos);
+		philos = philos->next;
+	}
+	pthread_create(&philos->thread, NULL, &routine, philos);
+}*/
 
 static t_philo	*save_last(t_philo *philo)
 {
@@ -53,17 +65,25 @@ static t_philo	*save_last(t_philo *philo)
 	return (philo);
 }
 
-static void	create_thread(t_philo **philos)
+void	remove_all(t_philo *philo)
 {
-	while ((*philos)->n < (*philos)->config.number_of_philos)
+	while (philo->next)
 	{
-		pthread_create(&(*philos)->thread, NULL, &routine, *philos);
-		*philos = (*philos)->next;
+		if (philo->prev)
+		{
+			free(philo->prev);
+			philo->prev = NULL;
+		}
+		philo = philo->next;
 	}
-	pthread_create(&(*philos)->thread, NULL, &routine, *philos);
+	if (philo)
+	{
+		free(philo);
+		philo = NULL;
+	}
 }
 
-t_philo	*init_philos(int argc, char **argv)
+void	init_philos(int argc, char **argv)
 {
 	t_philo		*philo;
 	t_config	config;
@@ -72,7 +92,7 @@ t_philo	*init_philos(int argc, char **argv)
 	config = create_config(argc, argv);
 	philo = create_philos(NULL, config, 0, &table);
 	philo = save_last(philo);
-	create_thread(&philo);
-	supervisor(philo);
-	return (philo);
+	remove_all(philo);
+	/*create_thread(philos);
+	supervisor(philos);*/
 }

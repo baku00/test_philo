@@ -6,13 +6,11 @@
 /*   By: dgloriod <dgloriod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 01:32:30 by dgloriod          #+#    #+#             */
-/*   Updated: 2022/11/13 06:21:50 by dgloriod         ###   ########.fr       */
+/*   Updated: 2022/11/13 16:34:46 by dgloriod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philos.h"
-
-
 
 static int	can_use_fork(t_philo *philo, pthread_mutex_t *fork)
 {
@@ -53,7 +51,7 @@ void	*routine(void *p)
 	philo = (t_philo *) p;
 	philo->last_eat = get_actual_time();
 	philo->table->start_time = get_actual_time();
-	while (1)
+	while (!philo->table->have_to_stop)
 	{
 		if (philo->state == WAIT_FOR_START)
 		{

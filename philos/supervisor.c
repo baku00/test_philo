@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   supervisor.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: dgloriod <dgloriod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/13 02:16:58 by dgloriod          #+#    #+#             */
-/*   Updated: 2022/11/13 06:31:35 by dgloriod         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "philos.h"
 
 static int	have_the_time(t_philo *philo)
@@ -31,21 +19,41 @@ int	have_to_stop(t_philo *philo)
 	return (philo->table->have_to_stop);
 }
 
-static void	remove_all(t_philo *philo)
+/*void	disconnect_philo(t_philo *philo)
 {
-	while (philo->n != 1)
-		philo = philo->next;
-	while (philo->n != philo->config.number_of_philos)
-	{
-		pthread_detach(philo->thread);
-		free(philo->thread);
-		pthread_mutex_destroy(&philo->fork);
-		if (philo->next)
-			philo = philo->next;
-		free(philo->prev);
-		philo->prev = NULL;
-	}
+	t_philo	*prev;
+	t_philo	*next;
+
+	prev = philo->prev;
+	next = philo->next;
+	if (prev)
+		prev->next = next;
+	if (next)
+		next->prev = prev;
+	philo->next = NULL;
+	philo->prev = NULL;
 }
+
+void	remove_philo(t_philo *philo)
+{
+	disconnect_philo(philo);
+	free(philo);
+	philo = NULL;
+}*/
+
+// void	remove_all(t_philo *philo)
+// {
+// 	while(philo->n != 1)
+// 		philo = philo->next;
+// 	free(philo->prev);
+// 	philo->prev = NULL;
+// 	while (philo)
+// 	{
+// 		philo = philo->next;
+// 		free(philo->prev);
+// 		philo->prev = NULL;
+// 	}
+// }
 
 void	supervisor(t_philo *philos)
 {
@@ -60,5 +68,5 @@ void	supervisor(t_philo *philos)
 		printf("%ld %d is dead\n", get_current_time(philos->table->start_time), philos->n);
 	else if (philos->table->have_to_stop == REACH_MEAL)
 		printf("%ld %d has reach number of meal\n", get_current_time(philos->table->start_time), philos->n);
-	remove_all(philos);
+	//remove_all(philos);
 }
