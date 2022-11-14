@@ -11,8 +11,10 @@ void	make_eat(t_philo *philo)
 		return ;
 	if (can_take_a_fork(philo) == 0 && can_eat(philo) && !have_to_stop(philo))
 	{
+		printf("%ld %d has taken a fork\n", get_current_time(philo->table->start_time), philo->n);
 		if (can_take_a_fork(next) == 0 && !have_to_stop(philo))
 		{
+			printf("%ld %d has taken a fork\n", get_current_time(philo->table->start_time), philo->n);
 			printf("%ld %d is eating\n", \
 			get_current_time(philo->table->start_time), philo->n);
 			milliseconde_sleep(philo->config.time_to_eat);
