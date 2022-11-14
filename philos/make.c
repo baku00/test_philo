@@ -25,6 +25,8 @@ void	make_eat(t_philo *philo)
 			philo->last_eat = get_actual_time();
 			philo->state = SLEEPING_STATE;
 		}
+		if (have_to_stop(philo))
+			pthread_mutex_unlock(&philo->fork);
 	}
 }
 

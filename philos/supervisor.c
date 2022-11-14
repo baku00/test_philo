@@ -38,5 +38,7 @@ void	supervisor(t_philo *philos)
 		printf("%ld %d is dead\n", time, philos->n);
 	else if (philos->table->have_to_stop == REACH_MEAL)
 		printf("%ld %d has reach number of meal\n", time, philos->n);
+	while (philos->table->has_finish < philos->config.number_of_philos)
+		;
 	remove_all(philos);
 }

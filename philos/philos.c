@@ -37,6 +37,7 @@ int i, t_table *table)
 	philo->last_eat = get_actual_time();
 	philo->table = table;
 	philo->table->have_to_stop = 0;
+	philo->table->has_finish = 0;
 	philo->number_of_eat = -1;
 	philo->fork_state = FORK_UNLOCK;
 	if (philo->n % 2)

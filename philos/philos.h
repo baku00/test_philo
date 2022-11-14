@@ -18,6 +18,7 @@ typedef struct s_table
 {
 	int			have_to_stop;
 	long int	start_time;
+	int			has_finish;
 	void		*philo;
 }	t_table;
 
