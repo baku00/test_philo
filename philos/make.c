@@ -11,12 +11,11 @@ void	make_eat(t_philo *philo)
 		return ;
 	if (can_take_a_fork(philo) == 0 && can_eat(philo) && !have_to_stop(philo))
 	{
-		printf("%ld %d has taken a fork\n", get_current_time(philo->table->start_time), philo->n);
+		print_has_taken_a_fork(philo);
 		if (can_take_a_fork(next) == 0 && !have_to_stop(philo))
 		{
-			printf("%ld %d has taken a fork\n", get_current_time(philo->table->start_time), philo->n);
-			printf("%ld %d is eating\n", \
-			get_current_time(philo->table->start_time), philo->n);
+			print_has_taken_a_fork(philo);
+			print_eat(philo);
 			milliseconde_sleep(philo->config.time_to_eat);
 			pthread_mutex_unlock(&philo->fork);
 			pthread_mutex_unlock(&next->fork);
@@ -34,8 +33,7 @@ void	make_sleep(t_philo *philo)
 {
 	if (!philo && !have_to_stop(philo))
 		return ;
-	printf("%ld %d is sleeping\n", \
-	get_current_time(philo->table->start_time), philo->n);
+	print_sleep(philo);
 	milliseconde_sleep(philo->config.time_to_sleep);
 	philo->state = THINKING_STATE;
 }
@@ -44,8 +42,7 @@ void	make_think(t_philo *philo)
 {
 	if (!philo && !have_to_stop(philo))
 		return ;
-	printf("%ld %d is thinking\n", \
-	get_current_time(philo->table->start_time), philo->n);
+	print_think(philo);
 	philo->state = WAIT_FOR_EAT_STATE;
 }
 

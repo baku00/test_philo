@@ -20,7 +20,8 @@ SRCS = main.c \
 		$(PHILOS_DIR)/supervisor.c \
 		$(PHILOS_DIR)/remove.c \
 		$(PHILOS_DIR)/make.c \
-		$(PHILOS_DIR)/can.c
+		$(PHILOS_DIR)/can.c \
+		$(PHILOS_DIR)/print.c
 
 OBJS = $(SRCS:.c=.o)
 

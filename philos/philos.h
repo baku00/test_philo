@@ -57,4 +57,9 @@ void		make_think(t_philo *philo);
 void		make_start(t_philo *philo);
 int			can_take_a_fork(t_philo *philo);
 int			can_eat(t_philo *philo);
+void		print_has_taken_a_fork(t_philo *philo);
+void		print_eat(t_philo *philo);
+void		print_sleep(t_philo *philo);
+void		print_think(t_philo *philo);
+void		print_dead(t_philo *philo);
 #endif

@@ -2,7 +2,7 @@
 
 static void	*routine_for_one(t_philo *philo)
 {
-	printf("%ld %d has taken a fork\n", get_current_time(philo->table->start_time), philo->n);
+	print_has_taken_a_fork(philo);
 	milliseconde_sleep(philo->config.time_to_die);
 	philo->table->has_finish += 1;
 	return (NULL);
