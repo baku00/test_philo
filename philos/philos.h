@@ -1,6 +1,8 @@
 #ifndef PHILOS_H
 # define PHILOS_H
 # include "../main.h"
+# define FORK_LOCK 1
+# define FORK_UNLOCK 2
 
 typedef struct s_config
 {
@@ -9,7 +11,7 @@ typedef struct s_config
 	int	time_to_eat;
 	int	time_to_sleep;
 	int	number_of_eat;
-	int	total_time;
+	int	error;
 }	t_config;
 
 typedef struct s_table
@@ -30,14 +32,15 @@ typedef struct s_philo
 	int				thread_id;
 	int				fork_number;
 	int				state;
+	int				fork_state;
 	pthread_mutex_t	fork;
 	pthread_t		thread;
 	void			*next;
 	void			*prev;
-}   t_philo;
+}	t_philo;
 
 void		init_philos(int argc, char **argv);
-void		*routine();
+void		*routine(void *p);
 long int	get_actual_time(void);
 void		milliseconde_sleep(long int milliseconde);
 long int	seconde_to_milliseconde(long int seconde);
@@ -46,4 +49,11 @@ long int	get_time_pass(long int start, long int end);
 void		supervisor(t_philo *philos);
 long int	get_current_time(long int start_time);
 int			have_to_stop(t_philo *philo);
+void		remove_all(t_philo *philo);
+void		make_eat(t_philo *philo);
+void		make_sleep(t_philo *philo);
+void		make_think(t_philo *philo);
+void		make_start(t_philo *philo);
+int			can_take_a_fork(t_philo *philo);
+int			can_eat(t_philo *philo);
 #endif
