@@ -20,14 +20,3 @@ void	*routine(void *p)
 	}
 	return (NULL);
 }
-
-/*
-milliseconde_sleep(2);
-milliseconde_sleep(philo->config.time_to_sleep * 1);
-long int	time;
-
-time = get_current_time(philo->table->start_time);
-philo->last_eat = get_actual_time();
-
-!have_to_stop(philo)
-*/
